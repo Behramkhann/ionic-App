@@ -38,7 +38,7 @@
         <ion-list>
           <ion-item
             *ngFor="let place of loadedPlaces"
-            [routerLink]="['/','places','tabs','find','place.id']"
+            [routerLink]="['/','places','tabs','find',place.id]"
             detail
           >
             <ion-thumbnail slot="start">

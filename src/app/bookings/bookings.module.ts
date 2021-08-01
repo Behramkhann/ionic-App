@@ -7,10 +7,9 @@ import { IonicModule } from '@ionic/angular';
 import { BookingsPageRoutingModule } from './bookings-routing.module';
 
 import { BookingsPage } from './bookings.page';
-import { CreateBookingComponent } from './create-booking/create-booking.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, IonicModule, BookingsPageRoutingModule],
-  declarations: [BookingsPage, CreateBookingComponent],
+  declarations: [BookingsPage],
 })
 export class BookingsPageModule {}

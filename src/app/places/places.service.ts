@@ -1,6 +1,9 @@
+/* eslint-disable arrow-body-style */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable max-len */
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
 import { Place } from '../models/place.model';
 
@@ -8,7 +11,7 @@ import { Place } from '../models/place.model';
   providedIn: 'root',
 })
 export class PlacesService {
-  private _places: Place[] = [
+  private _places = new BehaviorSubject<Place[]>([
     // eslint-disable-next-line max-len
     new Place(
       'p1',
@@ -40,18 +43,23 @@ export class PlacesService {
       new Date('2019-12-31'),
       '2'
     ),
-  ];
+  ]);
 
   get places() {
     // eslint-disable-next-line no-underscore-dangle
-    return [...this._places];
+    return this._places.asObservable();
   }
 
   constructor(private authService: AuthService) {}
 
   getPlace(id: string) {
     // eslint-disable-next-line no-underscore-dangle
-    return { ...this._places.find((p) => p.id === id) };
+    return this.places.pipe(
+      take(1),
+      map((places) => {
+        return { ...places.find((p) => p.id === id) };
+      })
+    );
   }
 
   addPlace(
@@ -71,6 +79,8 @@ export class PlacesService {
       dateTo,
       this.authService.userId
     );
-    this._places.push(newPlace);
+    this.places.pipe(take(1)).subscribe((places) => {
+      this._places.next(places.concat(newPlace));
+    });
   }
 }

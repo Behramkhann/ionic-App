@@ -28,14 +28,14 @@ export class CreateBookingComponent implements OnInit {
               7 * 24 * 60 * 60 * 1000 -
               availableFrom.getTime())
       ).toISOString();
+      this.endDate = new Date(
+        new Date(this.startDate).getTime() +
+          Math.random() *
+            (new Date(this.startDate).getTime() +
+              6 * 24 * 60 * 60 * 1000 -
+              new Date(this.startDate).getTime())
+      ).toISOString();
     }
-    this.endDate = new Date(
-      new Date(this.startDate).getTime() +
-        Math.random() *
-          (new Date(this.startDate).getTime() +
-            6 * 24 * 60 * 60 * 1000 -
-            new Date(this.startDate).getTime())
-    ).toISOString();
   }
 
   onCancel() {
@@ -53,9 +53,9 @@ export class CreateBookingComponent implements OnInit {
         bookingData: {
           firstName: this.form.value['first-name'],
           lastName: this.form.value['last-name'],
-          guestNumber: this.form.value['guest-number'],
-          startDate: this.form.value['date-from'],
-          endDate: this.form.value['date-to'],
+          guestNumber: +this.form.value['guest-number'],
+          startDate: new Date(this.form.value['date-from']),
+          endDate: new Date(this.form.value['date-to']),
         },
       },
       'confirm'

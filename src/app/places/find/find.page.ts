@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/member-ordering */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -15,6 +16,7 @@ export class FindPage implements OnInit, OnDestroy {
   relevantPlaces: Place[];
   listedLoadedPlaces: Place[];
   private subs: Subscription;
+  isLoading = false;
   constructor(
     private placesService: PlacesService,
     private authService: AuthService
@@ -37,6 +39,13 @@ export class FindPage implements OnInit, OnDestroy {
       });
       this.listedLoadedPlaces = this.relevantPlaces.slice(1);
     }
+  }
+
+  ionViewWillEnter() {
+    this.isLoading = true;
+    this.placesService.fetchPlaces().subscribe(() => {
+      this.isLoading = false;
+    });
   }
 
   ngOnDestroy() {

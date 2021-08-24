@@ -98,7 +98,6 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
       });
   }
   onOpenBookingModal(mode: 'select' | 'random') {
-    console.log(mode);
     this.modalCtrl
       .create({
         component: CreateBookingComponent,
@@ -125,8 +124,7 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
                   data.guestNumber,
                   data.startDate,
                   data.EndDate
-                )
-                .subscribe(() => {
+                ).subscribe(() => {
                   loadingEl.dismiss();
                 });
             });

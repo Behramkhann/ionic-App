@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { BookingService } from 'src/app/bookings/booking.service';
 import { Place } from 'src/app/models/place.model';
+import { MapModalComponent } from 'src/app/shared/map-modal/map-modal.component';
 import { CreateBookingComponent } from '../../../bookings/create-booking/create-booking.component';
 import { PlacesService } from '../../places.service';
 
@@ -124,13 +125,34 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
                   data.guestNumber,
                   data.startDate,
                   data.EndDate
-                ).subscribe(() => {
+                )
+                .subscribe(() => {
                   loadingEl.dismiss();
                 });
             });
         }
       });
   }
+
+  onShowFullMap() {
+    this.modalCtrl
+      .create({
+        component: MapModalComponent,
+        componentProps: {
+          center: {
+            lat: this.place.location.lat,
+            lng: this.place.location.lng,
+          },
+          selectable: false,
+          closeButtonText: 'Close',
+          title: this.place.location.address,
+        },
+      })
+      .then((modalEl) => {
+        modalEl.present();
+      });
+  }
+
   ngOnDestroy() {
     this.placeSub.unsubscribe();
   }

@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/member-ordering */
 /* eslint-disable object-shorthand */
 /* eslint-disable max-len */
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import {
   ActionSheetController,
   AlertController,
@@ -23,6 +24,7 @@ import { Geolocation } from '@capacitor/geolocation';
 export class LocationPickerComponent implements OnInit {
   @Output() locationPick = new EventEmitter<PlaceLocation>();
   selectedLocationImage: string;
+  @Input() showPreview = false;
   isLoading = false;
   constructor(
     private modalCtrl: ModalController,

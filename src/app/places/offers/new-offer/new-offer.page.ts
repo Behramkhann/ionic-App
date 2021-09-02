@@ -77,7 +77,9 @@ export class NewOfferPage implements OnInit {
       return;
     }
     this.loadingCtrl
-      .create({ message: 'Creating place...' })
+      .create({
+        message: 'Creating place...',
+      })
       .then((loadingEl) => {
         loadingEl.present();
         this.placeService
@@ -95,16 +97,11 @@ export class NewOfferPage implements OnInit {
               );
             })
           )
-          .subscribe(
-            () => {
-              this.loadingCtrl.dismiss();
-              this.form.reset();
-              this.router.navigate(['places/tabs/offers']);
-            },
-            (err) => {
-              console.log(err);
-            }
-          );
+          .subscribe(() => {
+            loadingEl.dismiss();
+            this.form.reset();
+            this.router.navigate(['/places/tabs/offers']);
+          });
       });
   }
 
